@@ -7,11 +7,17 @@
 //
 
 #import "SLPagingViewController.h"
-#import "SLPagingViewController+Protected.h"
 
 @interface SLPagingViewController () <UIScrollViewDelegate>
 
-
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UIView *navigationBarView;
+@property (nonatomic, strong) NSMutableArray *navItemsViews;
+@property (nonatomic, strong) NSMutableArray *controllerReferences;
+@property (nonatomic) BOOL needToShowPageControl;
+@property (nonatomic) BOOL isUserInteraction;
+@property (nonatomic) NSInteger indexSelected;
 
 @end
 
@@ -105,7 +111,7 @@
 -(id)initWithNavBarControllers:(NSArray *)controllers navBarBackground:(UIColor *)background showPageControl:(BOOL)addPageControl{
     NSMutableArray *views = [[NSMutableArray alloc] initWithCapacity:controllers.count];
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:controllers.count];
-    self.controllerReferences = [[NSMutableArray alloc] initWithArray:controllers];
+    _controllerReferences = [[NSMutableArray alloc] initWithArray:controllers];
     for(int i =0; i<controllers.count; i++){
         // Be sure we got s subclass of UIViewController
         if([controllers[i] isKindOfClass:UIViewController.class]){
@@ -141,7 +147,7 @@
 
 -(id)initWithNavBarItems:(NSArray *)items navBarBackground:(UIColor *)background controllers:(NSArray *)controllers showPageControl:(BOOL)addPageControl{
     NSMutableArray *views = [[NSMutableArray alloc] initWithCapacity:controllers.count];
-    self.controllerReferences = [[NSMutableArray alloc] initWithArray:controllers];
+    _controllerReferences = [[NSMutableArray alloc] initWithArray:controllers];
     for(int i =0; i<controllers.count; i++){
         // Be sure we got s subclass of UIViewController
         if([controllers[i] isKindOfClass:UIViewController.class])
@@ -278,6 +284,19 @@
 
 #pragma mark - Internal methods
 
+-(void) initCrucialObjects:(UIColor *)background showPageControl:(BOOL) showPageControl{
+    _needToShowPageControl             = showPageControl;
+    _navigationBarView                 = [[UIView alloc] init];
+    _navigationBarView.backgroundColor = background;
+    // UserInteraction activate by default
+    _isUserInteraction                 = YES;
+    // Default value for the navigation style
+    _navigationSideItemsStyle          = SLNavigationSideItemsStyleDefault;
+    _viewControllers                   = [NSMutableDictionary new];
+    _navItemsViews                     = [NSMutableArray new];
+    _controllerReferences              = [NSMutableArray new];
+}
+
 // Load any defined controllers from the storyboard
 - (void)loadStoryboardControllers
 {
@@ -326,10 +345,10 @@
                                                                           action:@selector(tapOnHeader:)];
     [v addGestureRecognizer:tap];
     [v setUserInteractionEnabled:YES];
-    [self.navigationBarView addSubview:v];
-    if(!self.navItemsViews)
-        self.navItemsViews = [[NSMutableArray alloc] init];
-    [self.navItemsViews addObject:v];
+    [_navigationBarView addSubview:v];
+    if(!_navItemsViews)
+        _navItemsViews = [[NSMutableArray alloc] init];
+    [_navItemsViews addObject:v];
 }
 
 -(void)setupPagingProcess{

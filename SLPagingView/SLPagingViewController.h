@@ -209,6 +209,11 @@ typedef void(^SLPagingViewDidChanged)(NSInteger currentPage);
  */
 -(void)addViewControllers:(UIViewController *) controller needToRefresh:(BOOL) refresh;
 
+/*
+ * Internal method only to be used from subclass initializers
+ */
+-(void) initCrucialObjects:(UIColor *)background showPageControl:(BOOL) showPageControl;
+
 @end
 
 extern NSString* const SLPagingViewPrefixIdentifier;  // this is @"sl_"

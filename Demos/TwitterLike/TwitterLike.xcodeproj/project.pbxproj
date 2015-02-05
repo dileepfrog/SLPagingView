@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5C1E7A211A84081D00297FCF /* SLPagingViewController+Protected.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E7A201A84081D00297FCF /* SLPagingViewController+Protected.m */; };
 		F82198631A2373CC00BDF49B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F82198621A2373CC00BDF49B /* main.m */; };
 		F82198661A2373CC00BDF49B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F82198651A2373CC00BDF49B /* AppDelegate.m */; };
 		F821987D1A2373CC00BDF49B /* TwitterLikeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F821987C1A2373CC00BDF49B /* TwitterLikeTests.m */; };
@@ -29,8 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5C1E7A1F1A84081D00297FCF /* SLPagingViewController+Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SLPagingViewController+Protected.h"; path = "../../SLPagingView/SLPagingViewController+Protected.h"; sourceTree = "<group>"; };
-		5C1E7A201A84081D00297FCF /* SLPagingViewController+Protected.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SLPagingViewController+Protected.m"; path = "../../SLPagingView/SLPagingViewController+Protected.m"; sourceTree = "<group>"; };
 		F821985D1A2373CC00BDF49B /* TwitterLike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterLike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82198611A2373CC00BDF49B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F82198621A2373CC00BDF49B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -136,8 +133,6 @@
 				F8C7A9A01A732015004AF72A /* UIScrollView+UpdateContentSize.m */,
 				F8C7A99C1A732006004AF72A /* ShareResources.h */,
 				F82198881A23748100BDF49B /* SLPagingViewController.h */,
-				5C1E7A1F1A84081D00297FCF /* SLPagingViewController+Protected.h */,
-				5C1E7A201A84081D00297FCF /* SLPagingViewController+Protected.m */,
 				F82198891A23748100BDF49B /* SLPagingViewController.m */,
 			);
 			name = SLPagingView;
@@ -243,7 +238,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C1E7A211A84081D00297FCF /* SLPagingViewController+Protected.m in Sources */,
 				F82198661A2373CC00BDF49B /* AppDelegate.m in Sources */,
 				F8C7A9A21A732015004AF72A /* UIScrollView+UpdateContentSize.m in Sources */,
 				F82198631A2373CC00BDF49B /* main.m in Sources */,
