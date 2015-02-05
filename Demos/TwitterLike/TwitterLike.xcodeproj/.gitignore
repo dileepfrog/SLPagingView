@@ -1,0 +1,4 @@
+# Individual user settings like breakpoints, Xcode UI layout and workspaces
+project.xcworkspace/
+xcuserdata/
+Pods/

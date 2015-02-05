@@ -141,7 +141,7 @@
                                                               reuseIdentifier:cellIdentifier];
         cell.textLabel.numberOfLines = 0;
     }
-    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"avatar_%d.jpg", (indexPath.row % 3)]];
+    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"avatar_%ld.jpg", (long)(indexPath.row % 3)]];
     cell.textLabel.text  = self.dataSource[indexPath.row];
     
     return cell;
