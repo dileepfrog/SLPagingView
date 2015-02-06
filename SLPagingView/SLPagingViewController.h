@@ -212,7 +212,7 @@ typedef void(^SLPagingViewDidChanged)(NSInteger currentPage);
 /*
  * Internal method only to be used from subclass initializers
  */
--(void) initCrucialObjects:(UIColor *)background showPageControl:(BOOL) showPageControl;
+-(void) initCrucialObjects:(UIColor *)background textColor: (UIColor *) textColor showPageControl:(BOOL);
 
 @end
 
