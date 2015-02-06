@@ -12,11 +12,13 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UIView *navigationBarView;
 @property (nonatomic, strong) NSMutableArray *navItemsViews;
 @property (nonatomic, strong) NSMutableArray *controllerReferences;
 @property (nonatomic) BOOL needToShowPageControl;
 @property (nonatomic) BOOL isUserInteraction;
 @property (nonatomic) NSInteger indexSelected;
+@property (nonatomic, strong) UIColor *textColor;
 
 @end
 
@@ -26,6 +28,7 @@
     self = [super initWithCoder:aDecoder];
     if(self){
         [self initCrucialObjects:[UIColor whiteColor]
+                       textColor: [UIColor darkTextColor]
                  showPageControl:NO];
     }
     return self;
@@ -51,6 +54,7 @@
     self = [super init];
     if(self){
         [self initCrucialObjects:background
+                       textColor: [UIColor darkTextColor]
                  showPageControl:addPageControl];
         int i                         = 0;
         for(i=0; i<items.count; i++){
@@ -259,6 +263,7 @@
     UIView *v = nil;
     if(controller.title){
         UILabel *item = [UILabel new];
+        item.textColor = _textColor;
         [item setText:controller.title];
         v = item;
     }
@@ -283,10 +288,11 @@
 
 #pragma mark - Internal methods
 
--(void) initCrucialObjects:(UIColor *)background showPageControl:(BOOL) showPageControl{
+-(void) initCrucialObjects:(UIColor *)background textColor: (UIColor *) textColor showPageControl:(BOOL) showPageControl{
     _needToShowPageControl             = showPageControl;
     _navigationBarView                 = [[UIView alloc] init];
     _navigationBarView.backgroundColor = background;
+    _textColor = textColor;
     // UserInteraction activate by default
     _isUserInteraction                 = YES;
     // Default value for the navigation style
