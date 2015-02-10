@@ -187,6 +187,10 @@
     [self notifyControllers:NSSelectorFromString(@"viewDidAppear:")
                      object:@(animated)
                  checkIndex:YES];
+    
+    if (self.pagingViewMovingRedefine) {
+        self.pagingViewMovingRedefine(self.scrollView, self.navItemsViews);
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -264,6 +268,7 @@
     if(controller.title){
         UILabel *item = [UILabel new];
         item.textColor = _textColor;
+        item.font = [UIFont boldSystemFontOfSize:17]; // FIXME This is only for iOS 7, perhaps iPhone only
         [item setText:controller.title];
         v = item;
     }
@@ -403,8 +408,8 @@
         float width                 = SCREEN_SIZE.width * self.viewControllers.count;
         float height                = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.navigationBarView.frame);
         self.scrollView.contentSize = (CGSize){width, height};
-        [self.viewControllers enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-            UIView *v = (UIView*)obj;
+        for (int i=0; i<self.viewControllers.count; i++) {
+            UIView *v = (UIView *)[self.viewControllers objectForKey:[NSNumber numberWithInt:i]];
             [self.scrollView addSubview:v];
             v.translatesAutoresizingMaskIntoConstraints = NO;
             // Width constraint, half of parent view width
@@ -423,7 +428,7 @@
                                                                         attribute:NSLayoutAttributeHeight
                                                                        multiplier:1.0
                                                                          constant:0]];
-            UIView *previous = [self.viewControllers objectForKey:[NSNumber numberWithFloat:([key intValue] - 1)]];
+            UIView *previous = [self.viewControllers objectForKey:[NSNumber numberWithInt:(i-1)]];
             if(previous)
                 // Distance constraint: set distance between previous view and the current one
                 [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[previous]-0-[v]"
@@ -436,7 +441,7 @@
                                                                                     options:0
                                                                                     metrics:nil
                                                                                       views:@{@"v" : v}]];
-        }];
+        }
     }
 }
 
