@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSMutableArray *controllerReferences;
 @property (nonatomic) BOOL needToShowPageControl;
 @property (nonatomic) BOOL isUserInteraction;
-@property (nonatomic) NSInteger indexSelected;
 @property (nonatomic, strong) UIColor *textColor;
 
 @end

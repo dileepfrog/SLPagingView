@@ -69,6 +69,8 @@ typedef void(^SLPagingViewDidChanged)(NSInteger currentPage);
  */
 @property (nonatomic) SLNavigationSideItemsStyle navigationSideItemsStyle;
 
+@property (nonatomic) NSInteger indexSelected;
+
 /*
  *  SLPagingViewController's constructor
  *
