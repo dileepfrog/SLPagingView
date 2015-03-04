@@ -18,6 +18,7 @@
 @property (nonatomic) BOOL needToShowPageControl;
 @property (nonatomic) BOOL isUserInteraction;
 @property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic) BOOL isObservingOrientationChange;
 
 @end
 
@@ -177,6 +178,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:self.navigationBarView];
     // Be notify when the device's orientation change
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged:)
@@ -202,6 +204,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self.navigationBarView removeFromSuperview];
     // Notify all conctrollers
     [self notifyControllers:NSSelectorFromString(@"viewWillDisappear:")
                      object:@(animated)
@@ -219,9 +222,12 @@
 }
 
 -(void)dealloc{
-    // Remove Observers
-    [[NSNotificationCenter defaultCenter]removeObserver:self
-                                             forKeyPath:UIDeviceOrientationDidChangeNotification];
+    if (self.isObservingOrientationChange) {
+        // Remove Observers
+        [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                 forKeyPath:UIDeviceOrientationDidChangeNotification];
+    }
+    
     // Close relationships
     _didChangedPage           = nil;
     _pagingViewMoving         = nil;
@@ -267,7 +273,7 @@
     if(controller.title){
         UILabel *item = [UILabel new];
         item.textColor = _textColor;
-        item.font = [UIFont boldSystemFontOfSize:17]; // FIXME This is only for iOS 7, perhaps iPhone only
+        item.font = [UIFont boldSystemFontOfSize:17]; // TODO This is locked to iOS 7, perhaps iPhone only
         [item setText:controller.title];
         v = item;
     }
@@ -287,7 +293,7 @@
     [controller didMoveToParentViewController:self];
     // Do we need to refresh the UI ?
     if(refresh)
-       [self setupPagingProcess];
+        [self setupPagingProcess];
 }
 
 #pragma mark - Internal methods
@@ -304,6 +310,7 @@
     _viewControllers                   = [NSMutableDictionary new];
     _navItemsViews                     = [NSMutableArray new];
     _controllerReferences              = [NSMutableArray new];
+    _isObservingOrientationChange      = NO;
 }
 
 // Load any defined controllers from the storyboard
@@ -370,7 +377,6 @@
     self.scrollView.delegate                                  = self;
     self.scrollView.bounces                                   = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.scrollView setContentInset:UIEdgeInsetsMake(0, 0, -80, 0)];
     [self.view addSubview:self.scrollView];
     
     // setup scrollview constraints
@@ -397,7 +403,6 @@
         if(self.tintPageControlColor) self.pageControl.pageIndicatorTintColor = self.tintPageControlColor;
         [self.navigationBarView addSubview:self.pageControl];
     }
-    [self.navigationController.navigationBar addSubview:self.navigationBarView];
 }
 
 // Add all views
@@ -519,6 +524,10 @@
 }
 
 #pragma mark - ScrollView delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.scrollView.frame.size.height);
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Update nav items
