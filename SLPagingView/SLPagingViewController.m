@@ -440,6 +440,12 @@
                                                                                         metrics:nil
                                                                                           views:@{@"v" : v,
                                                                                                   @"previous" : previous}]];
+            else
+                [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[v]"
+                                                                                        options:0
+                                                                                        metrics:nil
+                                                                                            views:@{@"v" : v}]];
+
             // Oridnate constraint : set the space between the Top and the current view
             [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%f-[v]", CGRectGetHeight(self.navigationBarView.frame)]
                                                                                     options:0
